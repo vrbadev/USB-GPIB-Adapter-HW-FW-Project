@@ -17,7 +17,7 @@ To connect the bus to the user's computer, however, a GPIB interface module is r
 
 In the images below: [National Instruments GPIB-USB-HS adapter](https://cz.farnell.com/ni/778927-01/gpib-instrument-control-device/dp/3621284) (left) and [Keysight 82357B Interface USB-to-GPIB](https://cz.farnell.com/keysight-technologies/82357b/converter-interface-usb-to-gpib/dp/1425679) (right).
 
-<img align="left" width="49%" src="Images/ni-gpib-usb-hs.jpg"> <img align="right" width="49%" src="Images/keysight-82357b.jpg">
+<img width="49%" src="Images/ni-gpib-usb-hs.jpg"> <img width="49%" src="Images/keysight-82357b.jpg">
 
 <p style="clear:both;">
 
@@ -52,7 +52,7 @@ One device (e.g. a multimeter) can be both a Talker and a Listener. The USB-GPIB
 ### Handshaking Protocol
 In the original version of the 488.1 standard, it was necessary for each Listener to set the NRFD to log. 0, then the Talker set DAV to log 1 to indicate to the Listener that data was available, and finally the Listener set NDAC to log. 0 after receiving a byte of data, as in the left figure below (taken from the [GPIB Tutorial](http://lmu.web.psi.ch/docu/manuals/software_manuals/GPIB/GPIB_tutorial.pdf)). This caused a time delay of T1 before the whole process could be repeated and another byte of data could be sent.
 
-<img align="left" width="49%" src="Images/ieee4881_handshake.png"> <img align="right" width="49%" src="Images/hs488_handshake.png">
+<img width="49%" src="Images/ieee4881_handshake.png"> <img width="49%" src="Images/hs488_handshake.png">
 
 <p style="clear:both;">
 
@@ -113,7 +113,7 @@ The bus wires are shuffled on the pins of these ICs to interface the pins of the
 Top and bottom views of the layout are shown below. The PCB size is approximately 71.1x55.9 mm. If an adapter case is designed (e.g. for 3D printing), 3.2mm mounting holes in the corners can be used for its attachment. THT components mounted on the top side or on the bottom side of the PCB should always fit into a printed case the same way for both cases.
 
 
-<img align="left" width="49%" src="Images/layout_top.png"> <img align="right" width="49%" src="Images/layout_bottom.png">
+<img width="49%" src="Images/layout_top.png"> <img width="49%" src="Images/layout_bottom.png">
 
 <p style="clear:both;">
 </p>
@@ -164,15 +164,15 @@ The TMC documentation also describes the methods of splitting, interrupting and 
 
 An example taken from the [USB Device Test and Measurement Class Specification](http://www.usb.org/sites/default/files/USBTMC_1_006a.zip) is passing the identification command `"*IDN?"` to a connected USB device (e.g. USB-to-GPIB adapter). In this case, the host writes a message of type DEV_DEP_MSG_OUT with the contents shown in the below figure to the Bulk-OUT endpoint.
 
-<div style="text-align:center"><img src="Images/example_idn_command.jpg" width="80%"></div>
+<div style="text-align:center"><img src="Images/example_idn_command.jpg" width="70%"></div>
 
 Then the host writes into the Bulk-OUT register another message (another transfer, that is why the bTag is 0x02) of the `REQUEST_DEV_DEP_MSG_IN` type - requesting a response from the device (adapter), with the content shown in the figure below.
 
-<div style="text-align:center"><img src="Images/example_response.jpg" width="80%"></div>
+<div style="text-align:center"><img src="Images/example_response.jpg" width="70%"></div>
 
 Eventually, the device (adapter) responds by writing into the Bulk-IN register a message of the `DEV_DEP_MSG_IN` type containing the identification of the measuring device (the bTag value is still 0x02) e.g. `"XYZCO,246B,S-0123-02,0\n"` (according to the format in the [IEEE Std 488.2-1992](https://doi.org/10.1109/ieeestd.1992.114468), ch. 10.14), with the content shown in the figure below.
 
-<div style="text-align:center"><img src="Images/example_forwarding_response.png" width="80%"></div>
+<div style="text-align:center"><img src="Images/example_forwarding_response.png" width="70%"></div>
 
 Thanks to the fact that the content of the TMC messages corresponds to the content of the communication over the GPIB bus, the adapter is very simple in terms of firmware. The USB-GPIB adapter only interprets the incoming TMC messages by controlling the bus wires appropriately using GPIO, similarly reading the data from the bus and passing it to the host (user PC). The TMC class standard is also fully compatible with common software designed for GPIB control, such as NI-VISA or LabView.
 
